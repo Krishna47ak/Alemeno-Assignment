@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { fetchCourses } from "./store/actions/courses";
+import { useEffect } from "react";
+import store from "./store/store";
+import Home from "./screens/Home";
+import CourseDetail from "./screens/CourseDetail";
+import Dashboard from "./screens/Dashboard";
 
-function App() {
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  },
+  {
+    path: "/:id",
+    element: <CourseDetail />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
+  },
+])
+
+const App = () => {
+  useEffect(() => {
+    store.dispatch(fetchCourses())
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <RouterProvider router={appRouter} />
+  )
 }
 
 export default App;
